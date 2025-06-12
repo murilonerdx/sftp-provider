@@ -1,6 +1,6 @@
 package com.murilonerdx.connection;
 
-import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.*;
 public class FtpConnection {
 
 	private final FTPClient client = new FTPClient();
