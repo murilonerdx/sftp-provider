@@ -8,7 +8,7 @@
 
   <groupId>io.github.murilonerdx</groupId>
   <artifactId>sftp-provider</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
   <packaging>jar</packaging>
 
   <name>SFTP Provider</name>
@@ -56,7 +56,7 @@
     <dependency>
       <groupId>commons-net</groupId>
       <artifactId>commons-net</artifactId>
-      <version>3.8.0</version>
+      <version>3.9.0</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
