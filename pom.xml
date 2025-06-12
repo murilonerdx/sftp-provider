@@ -1,17 +1,45 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.murilonerdx</groupId>
+  <groupId>io.github.murilonerdx</groupId>
   <artifactId>sftp-provider</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
-  <name>sftp-provider</name>
-  <url>http://maven.apache.org</url>
+  <name>SFTP Provider</name>
+  <description>Uma biblioteca Java para operações com SFTP (upload, download, listagem e manipulação de arquivos e diretórios) com suporte completo a interfaces síncronas e reativas (Reactor). Ideal para aplicações modernas que demandam integração robusta com servidores SFTP e com suporte para FTP.</description>
+  <url>https://github.com/murilonerdx/sftp-provider</url>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://opensource.org/licenses/MIT</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>murilonerdx</id>
+      <name>Murilo PS</name>
+      <email>mu-silva@outlook.com</email>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/murilonerdx/sftp-provider.git</connection>
+    <developerConnection>scm:git:ssh://github.com:murilonerdx/sftp-provider.git</developerConnection>
+    <url>https://github.com/murilonerdx/sftp-provider</url>
+  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -20,35 +48,33 @@
       <artifactId>jsch</artifactId>
       <version>0.1.55</version>
     </dependency>
-
-    <!-- Reactor Core para usar Mono e Flux -->
     <dependency>
       <groupId>io.projectreactor</groupId>
       <artifactId>reactor-core</artifactId>
-      <version>3.6.6</version> <!-- Use versão estável, não M3 -->
+      <version>3.6.6</version>
     </dependency>
     <dependency>
       <groupId>commons-net</groupId>
       <artifactId>commons-net</artifactId>
       <version>3.8.0</version>
     </dependency>
-    <!-- Spring Context (se necessário, mas não é obrigatório para Reactor funcionar) -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
-      <version>6.2.7</version> <!-- compatível com Java 17 e Reactor 3.6 -->
+      <version>6.2.7</version>
     </dependency>
   </dependencies>
-  <repositories>
+
+  <distributionManagement>
     <repository>
-      <id>central</id>
-      <url>https://repo.maven.apache.org/maven2</url>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/murilonerdx/sftp-provider</url>
     </repository>
-  </repositories>
+  </distributionManagement>
 
   <build>
     <plugins>
-      <!-- Plugin para Java -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -58,6 +84,35 @@
           <target>17</target>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.3.1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+
 </project>

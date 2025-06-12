@@ -29,15 +29,25 @@ Uma biblioteca Java para **operações com SFTP** (upload, download, listagem e 
 ---
 
 ## 📦 Como Usar
+### 0. Baixar dependência:
+```yaml
+<dependency>
+  <groupId>io.github.murilonerdx</groupId>
+  <artifactId>sftp-provider</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
 
 ### 1. Configurar a conexão:
 
 ```java
+
+
 SftpConfig config = new SftpConfig()
-    .host("localhost")
-    .port(2222)
-    .username("user")
-    .password("senha");
+		.host("localhost")
+		.port(2222)
+		.username("user")
+		.password("senha");
 
 SftpConnection connection = config.buildConnection();
 connection.connect();
