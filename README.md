@@ -34,7 +34,7 @@ Uma biblioteca Java para **operações com SFTP** (upload, download, listagem e 
 <dependency>
   <groupId>io.github.murilonerdx</groupId>
   <artifactId>sftp-provider</artifactId>
-  <version>1.0.0</version>
+  <version>1.5.0</version>
 </dependency>
 ```
 
