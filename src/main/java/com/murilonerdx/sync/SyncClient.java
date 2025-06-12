@@ -5,11 +5,11 @@ import com.murilonerdx.transfer.FileTransfer;
 import java.nio.file.Path;
 import java.util.List;
 
-public class SftpClient {
+public class SyncClient {
 
 	private final FileTransfer fileTransfer;
 
-	public SftpClient(FileTransfer fileTransfer) {
+	public SyncClient(FileTransfer fileTransfer) {
 		this.fileTransfer = fileTransfer;
 	}
 

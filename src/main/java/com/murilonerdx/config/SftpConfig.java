@@ -1,8 +1,11 @@
 package com.murilonerdx.config;
 
 
-import com.murilonerdx.connection.JschSftpConnection;
 import com.murilonerdx.connection.SftpConnection;
+import com.murilonerdx.connection.GateConnection;
+import com.murilonerdx.sync.SyncClient;
+import com.murilonerdx.transfer.FileTransfer;
+import com.murilonerdx.transfer.SftpFileTransfer;
 
 public class SftpConfig {
 	private String host;
@@ -30,8 +33,16 @@ public class SftpConfig {
 		return this;
 	}
 
-	public SftpConnection buildConnection() {
-		return new JschSftpConnection(host, port, username, password);
+	public GateConnection build() {
+		return new SftpConnection(host, port, username, password);
+	}
+
+	public FileTransfer transfer(GateConnection conn) {
+		return new SftpFileTransfer(conn);
+	}
+
+	public SyncClient client(FileTransfer transfer) {
+		return new SyncClient(transfer);
 	}
 }
 

@@ -1,7 +1,9 @@
 package com.murilonerdx.connection;
 
+import com.jcraft.jsch.ChannelSftp;
+import com.murilonerdx.exceptions.SftpException;
 import org.apache.commons.net.ftp.*;
-public class FtpConnection {
+public class FtpConnection implements GateConnection{
 
 	private final FTPClient client = new FTPClient();
 	private final String host;
@@ -16,6 +18,7 @@ public class FtpConnection {
 		this.password = password;
 	}
 
+	@Override
 	public void connect() throws Exception {
 		client.connect(host, port);
 		client.login(user, password);
@@ -23,11 +26,17 @@ public class FtpConnection {
 		client.setFileType(FTPClient.BINARY_FILE_TYPE);
 	}
 
+	@Override
 	public void disconnect() throws Exception {
 		if (client.isConnected()) {
 			client.logout();
 			client.disconnect();
 		}
+	}
+
+	@Override
+	public ChannelSftp getChannel() throws SftpException {
+		return null;
 	}
 
 	public FTPClient getClient() {

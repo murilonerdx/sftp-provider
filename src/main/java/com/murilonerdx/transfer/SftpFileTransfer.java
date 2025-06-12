@@ -2,7 +2,7 @@ package com.murilonerdx.transfer;
 
 
 import com.jcraft.jsch.ChannelSftp;
-import com.murilonerdx.connection.SftpConnection;
+import com.murilonerdx.connection.GateConnection;
 import com.murilonerdx.exceptions.SftpException;
 
 import java.io.InputStream;
@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 
 public class SftpFileTransfer implements FileTransfer {
 
-	private final SftpConnection connection;
+	private final GateConnection connection;
 
-	public SftpFileTransfer(SftpConnection connection) {
+	public SftpFileTransfer(GateConnection connection) {
 		this.connection = connection;
 	}
 

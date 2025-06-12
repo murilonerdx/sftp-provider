@@ -1,17 +1,15 @@
 package com.murilonerdx.reactive;
 
-import com.murilonerdx.exceptions.SftpException;
 import com.murilonerdx.transfer.FileTransfer;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
 import java.nio.file.Path;
-import java.util.List;
 
-public class ReactiveSftpClient {
+public class ReactiveClient {
 	private final FileTransfer fileTransfer;
 
-	public ReactiveSftpClient(FileTransfer fileTransfer) {
+	public ReactiveClient(FileTransfer fileTransfer) {
 		this.fileTransfer = fileTransfer;
 	}
 
