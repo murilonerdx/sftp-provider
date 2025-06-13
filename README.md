@@ -545,6 +545,3 @@ This project is licensed under the MIT License.
 
 ---
 
-## Contact
-
-For more information, contact the maintainer at support@yourorg.com.
