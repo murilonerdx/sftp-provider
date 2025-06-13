@@ -8,7 +8,7 @@
 
   <groupId>io.github.murilonerdx</groupId>
   <artifactId>sftp-provider</artifactId>
-  <version>1.8.0</version>
+  <version>1.12.0</version>
   <packaging>jar</packaging>
 
   <name>SFTP Provider</name>
