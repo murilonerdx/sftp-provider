@@ -17,7 +17,8 @@ public class SftpFileTransfer implements FileTransfer {
 
 	private final GateConnection connection;
 
-	public SftpFileTransfer(GateConnection connection) {
+	public SftpFileTransfer(GateConnection connection) throws Exception {
+		connection.connect();
 		this.connection = connection;
 	}
 
@@ -106,7 +107,7 @@ public class SftpFileTransfer implements FileTransfer {
 				}
 				String fullPath = remoteDir + "/" + filename;
 				if (entry.getAttrs().isDir()) {
-					deleteDirectory(fullPath); // recursivo
+					deleteDirectory(fullPath);
 				} else {
 					channel.rm(fullPath);
 				}
@@ -124,7 +125,6 @@ public class SftpFileTransfer implements FileTransfer {
 			channel.lstat(remotePath);
 			return true;
 		} catch (com.jcraft.jsch.SftpException e) {
-			// Código 2 indica que o arquivo/pasta não existe
 			if (e.id == ChannelSftp.SSH_FX_NO_SUCH_FILE) {
 				return false;
 			}

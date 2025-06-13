@@ -2,7 +2,6 @@ package com.murilonerdx.config;
 
 
 import com.murilonerdx.connection.FtpConnection;
-import com.murilonerdx.connection.GateConnection;
 import com.murilonerdx.reactive.ReactiveClient;
 import com.murilonerdx.sync.SyncClient;
 import com.murilonerdx.transfer.FileTransfer;
@@ -15,6 +14,21 @@ public class FtpConfig {
 	private int port = 22;
 	private String user;
 	private String password;
+
+	public FtpConfig(String host, int port, String user, String password) {
+		this.host = host;
+		this.port = port;
+		this.user = user;
+		this.password = password;
+	}
+
+	public FtpConfig() {
+	}
+
+	public static FtpConfig newBuilder() {
+		return new FtpConfig();
+	}
+
 
 	public FtpConfig host(String host) {
 		this.host = host;
@@ -36,16 +50,18 @@ public class FtpConfig {
 		return this;
 	}
 
-	public GateConnection build() {
+	public FtpConnection build() {
 		return new FtpConnection(host, port, user, password);
 	}
 
-	public FileTransfer transfer(GateConnection conn) throws Exception {
+	public FileTransfer transfer() throws Exception {
 		if(Objects.isNull(host) || Objects.isNull(user) || Objects.isNull(password)) {
 			throw new Exception("parameters cannot be null, host, password, username");
 		}
 
-		return new FtpFileTransfer(new FtpConnection(host, port, user, password));
+		FtpConnection connection = new FtpConnection(host, port, user, password);
+		connection.connect();
+		return new FtpFileTransfer(connection);
 	}
 
 	public SyncClient client(FileTransfer transfer) {

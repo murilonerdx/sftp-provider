@@ -60,7 +60,7 @@ public class FtpFileTransfer implements FileTransfer {
 		String[] folders = remotePath.split("/");
 		StringBuilder path = new StringBuilder();
 		for (String folder : folders) {
-			if (folder.isEmpty()) continue; // ignorar barras duplas
+			if (folder.isEmpty()) continue;
 			path.append("/").append(folder);
 			if (!client.changeWorkingDirectory(path.toString())) {
 				boolean created = client.makeDirectory(path.toString());

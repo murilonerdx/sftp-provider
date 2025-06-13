@@ -37,7 +37,7 @@ public class SftpConfig {
 		return new SftpConnection(host, port, username, password);
 	}
 
-	public FileTransfer transfer(GateConnection conn) {
+	public FileTransfer transfer(GateConnection conn) throws Exception {
 		return new SftpFileTransfer(conn);
 	}
 

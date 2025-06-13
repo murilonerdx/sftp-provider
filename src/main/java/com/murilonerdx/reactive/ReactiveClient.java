@@ -19,52 +19,60 @@ public class ReactiveClient {
 	}
 
 	public Mono<Void> uploadFile(String localPath, String remotePath) {
-		return Mono.fromRunnable(() -> {
+		return Mono.fromCallable(() -> {
 			try {
 				fileTransfer.upload(Path.of(localPath), remotePath);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
+
+			return null;
 		});
 	}
 
 	public Mono<Void> downloadFile(String remotePath, String localPath) {
-		return Mono.fromRunnable(() -> {
+		return Mono.fromCallable(() -> {
 			try {
 				fileTransfer.download(remotePath, Path.of(localPath));
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
+
+			return null;
 		});
 	}
 
 	public Mono<Void> deleteFile(String remotePath) {
-		return Mono.fromRunnable(() -> {
+		return Mono.fromCallable(() -> {
 			try {
 				fileTransfer.delete(remotePath);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
+
+			return null;
 		});
 	}
 
 	public Mono<Void> createDirectories(String remotePath) {
-		return Mono.fromRunnable(() -> {
+		return Mono.fromCallable(() -> {
 			try {
 				fileTransfer.createDirectories(remotePath);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
+			return null;
 		});
 	}
 
 	public Mono<Void> deleteDirectory(String remoteDir) {
-		return Mono.fromRunnable(() -> {
+		return Mono.fromCallable(() -> {
 			try {
 				fileTransfer.deleteDirectory(remoteDir);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
+			return null;
 		});
 	}
 
@@ -73,12 +81,13 @@ public class ReactiveClient {
 	}
 
 	public Mono<Void> disconnect() {
-		return Mono.fromRunnable(() -> {
+		return Mono.fromCallable(() -> {
 			try {
 				fileTransfer.disconnect();
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
+			return null;
 		});
 	}
 }
