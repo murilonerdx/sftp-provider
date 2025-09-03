@@ -1,4 +1,3 @@
-
 # sftp-provider Library Documentation
 
 ## Overview
@@ -30,14 +29,12 @@ Add the dependency to your Maven `pom.xml`:
     <artifactId>sftp-provider</artifactId>
     <version>1.11.0</version>
 </dependency>
-
 ```
 
 Or Gradle:
 
 ```groovy
 implementation 'io.github.murilonerdx:sftp-provider:1.11.0'
-
 ```
 
 ---
@@ -58,7 +55,7 @@ These can be passed via constructors or configuration classes in the library.
 
 ## API Overview
 
-### 1. Using the factory
+### 1. Using the Factory
 
 ```java
 import com.murilonerdx.connection.SftpConnection;
@@ -66,67 +63,76 @@ import com.murilonerdx.connection.GateConnection;
 import com.murilonerdx.factory.FileTransferFactory;
 import com.murilonerdx.transfer.FileTransfer;
 
-// Create a connection
-GateConnection connection = new SftpConnection("sftp.example.com", 22, "user", "pass");
-
-// Get the appropriate implementation through the factory
-FileTransfer transfer = FileTransferFactory.create("sftp", connection);
-
-// Use the transfer object
-transfer.upload(Path.of("/local/file.txt"), "/remote/path/file.txt");
-
+public class Example {
+    public static void main(String[] args) {
+        // Create a connection
+        GateConnection connection = new SftpConnection("sftp.example.com", 22, "user", "pass");
+        
+        // Get the appropriate implementation through the factory
+        FileTransfer transfer = FileTransferFactory.create("sftp", connection);
+        
+        // Use the transfer object
+        transfer.upload(Path.of("/local/file.txt"), "/remote/path/file.txt");
+    }
+}
 ```
+
 ### 1.2 Synchronous API
+
 ```java
 import com.murilonerdx.connection.SftpConnection;
 import com.murilonerdx.connection.GateConnection;
 import com.murilonerdx.transfer.FileTransfer;
 import com.murilonerdx.factory.FileTransferFactory;
 import com.murilonerdx.sync.SyncClient;
+import java.util.List;
 
-// Create an SFTP connection
-GateConnection connection = new SftpConnection("sftp.example.com", 22, "username", "password");
-// Create a file transfer instance for SFTP
-FileTransfer transfer = FileTransferFactory.create("sftp", connection);
-
-// Use synchronous client for blocking operations
-SyncClient client = new SyncClient(transfer);
-
-try {
-	
-	// Upload a file
-    client.uploadFile("/local/path/file.txt", "/remote/path/file.txt");
-
-	// List files in a directory
-	List<String> files = client.listFiles("/remote/path");
-    System.out.println("Files: " + files);
-
-	// Download a file
-    client.downloadFile("/remote/path/file.txt", "/local/download/directory");
-
-	// Check if a file exists
-	boolean exists = client.exists("/remote/path/file.txt");
-    System.out.println("File exists: " + exists);
-
-	// Create directories
-    client.createDirectories("/remote/new/directory/structure");
-
-	// Delete a file
-    client.deleteFile("/remote/path/file-to-delete.txt");
-
-	// Delete a directory recursively
-    client.deleteDirectory("/remote/directory/to/delete");
-} catch (Exception e) {
-		e.printStackTrace();
-} finally {
-		// Always disconnect when done
-		try {
-		    client.disconnect();
+public class SyncExample {
+    public static void main(String[] args) {
+        // Create an SFTP connection
+        GateConnection connection = new SftpConnection("sftp.example.com", 22, "username", "password");
+        
+        // Create a file transfer instance for SFTP
+        FileTransfer transfer = FileTransferFactory.create("sftp", connection);
+        
+        // Use synchronous client for blocking operations
+        SyncClient client = new SyncClient(transfer);
+        
+        try {
+            // Upload a file
+            client.uploadFile("/local/path/file.txt", "/remote/path/file.txt");
+            
+            // List files in a directory
+            List<String> files = client.listFiles("/remote/path");
+            System.out.println("Files: " + files);
+            
+            // Download a file
+            client.downloadFile("/remote/path/file.txt", "/local/download/directory");
+            
+            // Check if a file exists
+            boolean exists = client.exists("/remote/path/file.txt");
+            System.out.println("File exists: " + exists);
+            
+            // Create directories
+            client.createDirectories("/remote/new/directory/structure");
+            
+            // Delete a file
+            client.deleteFile("/remote/path/file-to-delete.txt");
+            
+            // Delete a directory recursively
+            client.deleteDirectory("/remote/directory/to/delete");
         } catch (Exception e) {
-		    e.printStackTrace();
+            e.printStackTrace();
+        } finally {
+            // Always disconnect when done
+            try {
+                client.disconnect();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+    }
 }
-
 ```
 
 ### 2. Reactive FTP API
@@ -140,30 +146,36 @@ import com.murilonerdx.reactive.ReactiveClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-// Create an FTP connection
-GateConnection connection = new FtpConnection("ftp.example.com", 21, "username", "password");
-
-// Create a file transfer instance for FTP
-FileTransfer transfer = FileTransferFactory.create("ftp", connection);
-
-// Use reactive client for non-blocking operations
-ReactiveClient client = new ReactiveClient(transfer);
-
-// Upload a file reactively
-client.uploadFile("/local/path/file.txt", "/remote/path/file.txt")
-    .then(client.listFiles("/remote/path"))
-		.doOnNext(filename -> System.out.println("Found file: " + filename))
-		.then(client.downloadFile("/remote/path/file.txt", "/local/download/path.txt"))
-		.then(client.exists("/remote/path/file.txt")
-        .doOnNext(exists -> System.out.println("File exists: " + exists)))
-		.then(client.createDirectories("/remote/new/directory"))
-		.then(client.deleteFile("/remote/path/file-to-delete.txt"))
-		.then(client.disconnect())
-		.doOnError(e -> System.err.println("Error: " + e.getMessage()))
-		.subscribe();
-
+public class ReactiveExample {
+    public static void main(String[] args) {
+        // Create an FTP connection
+        GateConnection connection = new FtpConnection("ftp.example.com", 21, "username", "password");
+        
+        // Create a file transfer instance for FTP
+        FileTransfer transfer = FileTransferFactory.create("ftp", connection);
+        
+        // Use reactive client for non-blocking operations
+        ReactiveClient client = new ReactiveClient(transfer);
+        
+        // Upload a file reactively
+        client.uploadFile("/local/path/file.txt", "/remote/path/file.txt")
+            .then(client.listFiles("/remote/path")
+                .doOnNext(filename -> System.out.println("Found file: " + filename))
+                .then())
+            .then(client.downloadFile("/remote/path/file.txt", "/local/download/path.txt"))
+            .then(client.exists("/remote/path/file.txt")
+                .doOnNext(exists -> System.out.println("File exists: " + exists))
+                .then())
+            .then(client.createDirectories("/remote/new/directory"))
+            .then(client.deleteFile("/remote/path/file-to-delete.txt"))
+            .then(client.disconnect())
+            .doOnError(e -> System.err.println("Error: " + e.getMessage()))
+            .subscribe();
+    }
+}
 ```
-### 2.1 . SFTP Connection
+
+### 2.1 SFTP Connection
 
 ```java
 import com.murilonerdx.connection.SftpConnection;
@@ -171,27 +183,26 @@ import com.murilonerdx.connection.GateConnection;
 
 // Basic connection
 GateConnection sftpConnection = new SftpConnection(
-		"sftp.example.com",  // hostname
-		22,                  // port (standard SFTP port)
-		"username",          // username
-		"password"           // password
+    "sftp.example.com",  // hostname
+    22,                  // port (standard SFTP port)
+    "username",          // username
+    "password"           // password
 );
 
-		// Using builder pattern (if implemented)
-		SftpConfig config = SftpConfig.builder()
-				.host("sftp.example.com")
-				.port(22)
-				.username("username")
-				.password("password")
-				.timeout(10000)
-				.strictHostKeyChecking(false)
-				.build();
+// Using builder pattern (if implemented)
+SftpConfig config = SftpConfig.builder()
+    .host("sftp.example.com")
+    .port(22)
+    .username("username")
+    .password("password")
+    .timeout(10000)
+    .strictHostKeyChecking(false)
+    .build();
 
-		GateConnection sftpConnection = new SftpConnection(config);
-
+GateConnection sftpConnectionWithConfig = new SftpConnection(config);
 ```
 
-### 2.2 . FTP Connection
+### 2.2 FTP Connection
 
 ```java
 import com.murilonerdx.connection.FtpConnection;
@@ -199,43 +210,47 @@ import com.murilonerdx.connection.GateConnection;
 
 // Basic connection
 GateConnection ftpConnection = new FtpConnection(
-		"ftp.example.com",   // hostname
-		21,                  // port (standard FTP port)
-		"username",          // username
-		"password"           // password
+    "ftp.example.com",   // hostname
+    21,                  // port (standard FTP port)
+    "username",          // username
+    "password"           // password
 );
 
-		// Using builder pattern (if implemented)
-		FtpConfig config = FtpConfig.builder()
-				.host("ftp.example.com")
-				.port(21)
-				.username("username")
-				.password("password")
-				.passiveMode(true)
-				.binaryTransfer(true)
-				.build();
+// Using builder pattern (if implemented)
+FtpConfig config = FtpConfig.builder()
+    .host("ftp.example.com")
+    .port(21)
+    .username("username")
+    .password("password")
+    .passiveMode(true)
+    .binaryTransfer(true)
+    .build();
 
-		GateConnection ftpConnection = new FtpConnection(config);
-
+GateConnection ftpConnectionWithConfig = new FtpConnection(config);
 ```
 
-### 2.3 . Advanced Usage
+### 2.3 Advanced Usage
 
 ```java
 import com.murilonerdx.connection.SftpConnection;
 import com.murilonerdx.transfer.SftpFileTransfer;
 import java.nio.file.Path;
+import java.util.List;
 
-// Create connection and transfer objects directly
-SftpConnection connection = new SftpConnection("sftp.example.com", 22, "username", "password");
-		SftpFileTransfer transfer = new SftpFileTransfer(connection);
-
-// Use the transfer object directly
-transfer.upload(Path.of("/local/file.txt"), "/remote/path/file.txt");
-		List<String> files = transfer.listFiles("/remote/path");
-transfer.disconnect();
-
+public class AdvancedExample {
+    public static void main(String[] args) {
+        // Create connection and transfer objects directly
+        SftpConnection connection = new SftpConnection("sftp.example.com", 22, "username", "password");
+        SftpFileTransfer transfer = new SftpFileTransfer(connection);
+        
+        // Use the transfer object directly
+        transfer.upload(Path.of("/local/file.txt"), "/remote/path/file.txt");
+        List<String> files = transfer.listFiles("/remote/path");
+        transfer.disconnect();
+    }
+}
 ```
+
 ### 3. FTP Support
 
 Same as SFTP but with `FtpClient` or `ReactiveFtpClient`.
@@ -252,17 +267,18 @@ Same as SFTP but with `FtpClient` or `ReactiveFtpClient`.
 
 ### File Operations
 
-- Upload: Upload a file or stream to remote server
-- Download: Download a file or stream from remote server
-- Delete: Remove a file or directory
-- List: List files and directories in a given path
-- Move/Rename: Rename or move files remotely
+- **Upload:** Upload a file or stream to remote server
+- **Download:** Download a file or stream from remote server
+- **Delete:** Remove a file or directory
+- **List:** List files and directories in a given path
+- **Move/Rename:** Rename or move files remotely
 
 ---
 
 ## Examples
 
 ### FTP Operations Only
+
 ```java
 import com.murilonerdx.connection.FtpConnection;
 import com.murilonerdx.transfer.FtpFileTransfer;
@@ -315,9 +331,10 @@ public class FtpExample {
         }
     }
 }
-
 ```
+
 ### SFTP Synchronous Operations
+
 ```java
 import com.murilonerdx.connection.SftpConnection;
 import com.murilonerdx.sync.SyncClient;
@@ -374,9 +391,10 @@ public class SftpSyncExample {
         }
     }
 }
-
 ```
+
 ### SFTP Reactive Operations
+
 ```java
 import com.murilonerdx.connection.SftpConnection;
 import com.murilonerdx.connection.GateConnection;
@@ -450,10 +468,10 @@ public class SftpReactiveExample {
         }
     }
 }
-
 ```
 
 ### Complete Example: Combining FTP and SFTP
+
 ```java
 import com.murilonerdx.connection.*;
 import com.murilonerdx.transfer.*;
@@ -461,7 +479,6 @@ import com.murilonerdx.factory.FileTransferFactory;
 import com.murilonerdx.sync.SyncClient;
 import com.murilonerdx.reactive.ReactiveClient;
 import reactor.core.publisher.Mono;
-
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -521,8 +538,8 @@ public class ComprehensiveExample {
         }
     }
 }
-
 ```
+
 ---
 
 ## Error Handling
@@ -544,4 +561,3 @@ Feel free to fork the repository and submit pull requests. For issues or feature
 This project is licensed under the MIT License.
 
 ---
-
